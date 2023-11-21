@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "329308170158",
+    "project_id": "maymuna-collection",
+    "storage_bucket": "maymuna-collection.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329308170158:android:aeeae39de0608f6b4f4a3f",
+        "android_client_info": {
+          "package_name": "com.maymuna.com.maymunas_collection"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWgzJvIWtE6idKUOCZM7JyPluJoqrckVw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
