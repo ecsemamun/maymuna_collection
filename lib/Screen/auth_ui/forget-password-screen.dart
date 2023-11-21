@@ -31,7 +31,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           backgroundColor: AppConstant.appScendoryColor,
           centerTitle: true,
           title: Text(
-            "Forget Password",
+            "ফরগেট পাসওয়ার্ড",
             style: TextStyle(color: AppConstant.appTextColor),
           ),
         ),
