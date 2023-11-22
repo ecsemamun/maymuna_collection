@@ -32,7 +32,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         iconTheme: IconThemeData(color: AppConstant.appTextColor),
         backgroundColor: AppConstant.appMainColor,
         title: Text(
-          "Product Details",
+          "প্রডাক্ট বিবরণ",
           style: TextStyle(color: AppConstant.appTextColor),
         ),
         actions: [
@@ -116,10 +116,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             widget.productModel.isSale == true &&
                                 widget.productModel.salePrice != ''
                                 ? Text(
-                              "PKR: " + widget.productModel.salePrice,
+                              "টাকা: " + widget.productModel.salePrice,
                             )
                                 : Text(
-                              "PKR: " + widget.productModel.fullPrice,
+                              "টাকা: " + widget.productModel.fullPrice,
                             ),
                           ],
                         ),
