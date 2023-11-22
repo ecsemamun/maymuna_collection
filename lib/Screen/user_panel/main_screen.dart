@@ -21,61 +21,91 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: AppConstant.appTextColor),
-        systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: AppConstant.appScendoryColor,
-            statusBarIconBrightness: Brightness.light),
-        backgroundColor: AppConstant.appMainColor,
-        title: Text(AppConstant.appMainName, style: TextStyle(color: AppConstant.appTextColor),),
-        centerTitle: true,
-        actions: [
-          GestureDetector(
-              onTap: ()=> Get.to (() => CartScreen()),
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Icon(Icons.shopping_cart),
-              ))
-        ],
-      ),
-      drawer: DrawerWidget(),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Container(
-          child: Column(
-            children: [
-              SizedBox(
-                height: Get.height / 90.0,
-              ),
-              BannerWidget(),
-              //heading
-              HeadingWidget(
-                headingTitle: "ক্যাটগরিজ",
-                headingSubTitle: "আপনার বাজেট অনুসারে",
-                onTap: () => Get.to(() => AllCategoriesScreen()),
-                buttonText: "আরও দেখুন >",
-              ),
-              CategoriesWidget(),
-              //heading
-              HeadingWidget(
-                headingTitle: "ফ্লাশ সেলস",
-                headingSubTitle: "আপনার বাজেট অনুসারে",
-                onTap: () => Get.to(() => AllFlashSaleProductScreen()),
-                buttonText: "আরও দেখুন>",
-              ),
-              FlashSaleWidget(),
-              HeadingWidget(
-                headingTitle: "সব প্রডাক্টস",
-                headingSubTitle: "আপনার বাজেট অনুসারে",
-                onTap: () => Get.to(() => AllProductsScreen()),
-                buttonText: "আরও দেখুন>",
-              ),
-              AllProductsWidget(),
-            ],
+    return WillPopScope(
+      onWillPop: () => _onBackButtonPressed(context),
+      child: Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: AppConstant.appTextColor),
+          systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor: AppConstant.appScendoryColor,
+              statusBarIconBrightness: Brightness.light),
+          backgroundColor: AppConstant.appMainColor,
+          title: Text(AppConstant.appMainName, style: TextStyle(color: AppConstant.appTextColor),),
+          centerTitle: true,
+          actions: [
+            GestureDetector(
+                onTap: ()=> Get.to (() => CartScreen()),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Icon(Icons.shopping_cart),
+                ))
+          ],
+        ),
+        drawer: DrawerWidget(),
+        body: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Container(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: Get.height / 90.0,
+                ),
+                BannerWidget(),
+                //heading
+                HeadingWidget(
+                  headingTitle: "ক্যাটগরিজ",
+                  headingSubTitle: "আপনার বাজেট অনুসারে",
+                  onTap: () => Get.to(() => AllCategoriesScreen()),
+                  buttonText: "আরও দেখুন >",
+                ),
+                CategoriesWidget(),
+                //heading
+                HeadingWidget(
+                  headingTitle: "ফ্লাশ সেলস",
+                  headingSubTitle: "আপনার বাজেট অনুসারে",
+                  onTap: () => Get.to(() => AllFlashSaleProductScreen()),
+                  buttonText: "আরও দেখুন>",
+                ),
+                FlashSaleWidget(),
+                HeadingWidget(
+                  headingTitle: "সব প্রডাক্টস",
+                  headingSubTitle: "আপনার বাজেট অনুসারে",
+                  onTap: () => Get.to(() => AllProductsScreen()),
+                  buttonText: "আরও দেখুন>",
+                ),
+                AllProductsWidget(),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+}
+
+Future<bool> _onBackButtonPressed(BuildContext context) async {
+  bool? exitApp = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Really Exit?'),
+          content: const Text('Are you sure you want to close the app?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: const Text('YES'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: const Text('NO'),
+            ),
+          ],
+        );
+      });
+
+  return exitApp ?? false;
 }
