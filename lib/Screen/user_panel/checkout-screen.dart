@@ -21,7 +21,7 @@ class CheckOutScreen extends StatefulWidget {
 class _CheckOutScreenState extends State<CheckOutScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   final ProductPriceController productPriceController =
-  Get.put(ProductPriceController());
+      Get.put(ProductPriceController());
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController addressController = TextEditingController();
@@ -33,7 +33,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         iconTheme: IconThemeData(color: AppConstant.appTextColor),
         backgroundColor: AppConstant.appMainColor,
         title: Text(
-          'Checkout Screen',
+          'চেকআউট স্ক্রিন',
           style: TextStyle(color: AppConstant.appTextColor),
         ),
       ),
@@ -118,7 +118,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         leading: CircleAvatar(
                           backgroundColor: AppConstant.appMainColor,
                           backgroundImage:
-                          NetworkImage(cartModel.productImages[0]),
+                              NetworkImage(cartModel.productImages[0]),
                         ),
                         title: Text(cartModel.productName),
                         subtitle: Row(
@@ -144,12 +144,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Obx(
-                  () =>
-                  Text(
-                    "     Total ${productPriceController.totalPrice.value
-                        .toStringAsFixed(1)} : BDT",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+              () => Text(
+                "     Total ${productPriceController.totalPrice.value.toStringAsFixed(1)} : BDT",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -192,11 +190,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
           child: Column(
             children: [
               Padding(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 20.0),
                 child: Container(
                   height: 55.0,
                   child: TextFormField(
+                    controller: nameController,
                     decoration: InputDecoration(
                         labelText: "Name",
                         contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -207,11 +206,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 ),
               ),
               Padding(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 20.0),
                 child: Container(
                   height: 55.0,
                   child: TextFormField(
+                    controller: phoneController,
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
@@ -224,11 +224,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 ),
               ),
               Padding(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 20.0),
                 child: Container(
                   height: 55.0,
                   child: TextFormField(
+                    controller: addressController,
                     decoration: InputDecoration(
                         labelText: "Address",
                         contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -246,11 +247,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     if (nameController.text != '' &&
                         phoneController.text != '' &&
                         addressController.text != '') {
-                      String name =nameController.text.trim();
-                      String phone= phoneController.text.trim();
+                      String name = nameController.text.trim();
+                      String phone = phoneController.text.trim();
                       String address = addressController.text.trim();
                       String customerToken = await getCustomerDeviceToken();
-                      //place order service
+
+                      //place order serice
+
                       placeOrder(
                         context: context,
                         customerName: name,
@@ -259,11 +262,11 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         customerDeviceToken: customerToken,
                       );
                     } else {
-                      print('Please fill all details');
+                      print("Fill The Details");
                     }
                   },
                   child: Text(
-                    "Place Order",
+                    "অর্ডার করুন",
                     style: TextStyle(color: Colors.white),
                   ))
             ],
@@ -277,5 +280,3 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     );
   }
 }
-
-

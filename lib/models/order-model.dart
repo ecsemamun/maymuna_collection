@@ -15,7 +15,7 @@ class OrderModel {
   final dynamic updatedAt;
   final int productQuantity;
   final double productTotalPrice;
-  final String cutomerId;
+  final String customerId;
   final bool status;
   final String customerName;
   final String customerPhone;
@@ -37,7 +37,7 @@ class OrderModel {
     required this.updatedAt,
     required this.productQuantity,
     required this.productTotalPrice,
-    required this.cutomerId,
+    required this.customerId,
     required this.status,
     required this.customerName,
     required this.customerPhone,
@@ -61,7 +61,7 @@ class OrderModel {
       'updatedAt': updatedAt,
       'productQuantity': productQuantity,
       'productTotalPrice': productTotalPrice,
-      'cutomerId': cutomerId,
+      'customerId': customerId,
       'status': status,
       'customerName': customerName,
       'customerPhone': customerPhone,
@@ -86,7 +86,7 @@ class OrderModel {
       updatedAt: json['updatedAt'],
       productQuantity: json['productQuantity'],
       productTotalPrice: json['productTotalPrice'],
-      cutomerId: json['cutomerId'],
+      customerId: json['customerId'],
       status: json['status'],
       customerName: json['customerName'],
       customerPhone: json['customerPhone'],
