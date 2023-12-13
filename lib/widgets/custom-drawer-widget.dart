@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../Screen/auth_ui/welcome-Screen.dart';
+import '../Screen/user_panel/all-orders-screen.dart';
 import '../Utils/app_constant.dart';
 
 
@@ -111,6 +112,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   Icons.arrow_forward,
                   color: AppConstant.appTextColor,
                 ),
+                onTap: () {
+                  Get.back();
+                  Get.to(() => AllOrdersScreen());
+                },
               ),
             ),
             Padding(

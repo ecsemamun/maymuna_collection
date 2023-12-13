@@ -1,5 +1,3 @@
-// ignore_for_file: file_names, must_be_immutable, prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, prefer_interpolation_to_compose_strings, unused_local_variable, avoid_print
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../Utils/app_constant.dart';
 import '../../models/cart-model.dart';
@@ -17,6 +16,7 @@ import 'cart-screen.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   ProductModel productModel;
+
   ProductDetailsScreen({super.key, required this.productModel});
 
   @override
@@ -25,6 +25,7 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   User? user = FirebaseAuth.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +33,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         iconTheme: IconThemeData(color: AppConstant.appTextColor),
         backgroundColor: AppConstant.appMainColor,
         title: Text(
-          "প্রডাক্ট বিবরণ",
+          "Product Details",
           style: TextStyle(color: AppConstant.appTextColor),
         ),
         actions: [
@@ -59,21 +60,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               items: widget.productModel.productImages
                   .map(
                     (imageUrls) => ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: CachedNetworkImage(
-                    imageUrl: imageUrls,
-                    fit: BoxFit.cover,
-                    width: Get.width - 10,
-                    placeholder: (context, url) => ColoredBox(
-                      color: Colors.white,
-                      child: Center(
-                        child: CupertinoActivityIndicator(),
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: CachedNetworkImage(
+                        imageUrl: imageUrls,
+                        fit: BoxFit.cover,
+                        width: Get.width - 10,
+                        placeholder: (context, url) => ColoredBox(
+                          color: Colors.white,
+                          child: Center(
+                            child: CupertinoActivityIndicator(),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     ),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                  ),
-                ),
-              )
+                  )
                   .toList(),
               options: CarouselOptions(
                 scrollDirection: Axis.horizontal,
@@ -114,13 +115,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         child: Row(
                           children: [
                             widget.productModel.isSale == true &&
-                                widget.productModel.salePrice != ''
+                                    widget.productModel.salePrice != ''
                                 ? Text(
-                              "টাকা: " + widget.productModel.salePrice,
-                            )
+                                    "PKR: " + widget.productModel.salePrice,
+                                  )
                                 : Text(
-                              "টাকা: " + widget.productModel.fullPrice,
-                            ),
+                                    "PKR: " + widget.productModel.fullPrice,
+                                  ),
                           ],
                         ),
                       ),
@@ -163,7 +164,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       color: AppConstant.appTextColor),
                                 ),
                                 onPressed: () {
-                                  // Get.to(() => SignInScreen());
+                                  sendMessageOnWhatsApp(
+                                    productModel: widget.productModel,
+                                  );
                                 },
                               ),
                             ),
@@ -185,20 +188,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   style: TextStyle(
                                       color: AppConstant.appTextColor),
                                 ),
-
                                 onPressed: () async {
                                   // Get.to(() => SignInScreen());
-                                  Get.snackbar(
-                                    "Add To Cart Message:",
-                                    "Add To Cart Added Successfully!",
-                                    snackPosition: SnackPosition.BOTTOM,
-                                    backgroundColor: AppConstant.appScendoryColor,
-                                    colorText: AppConstant.appTextColor,
-                                  );
+
                                   await checkProductExistence(uId: user!.uid);
                                 },
                               ),
-
                             ),
                           ),
                         ],
@@ -212,6 +207,22 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ),
       ),
     );
+  }
+
+  static Future<void> sendMessageOnWhatsApp({
+    required ProductModel productModel,
+  }) async {
+    final number = "+923075812354";
+    final message =
+        "Hello Techi4u \n i want to know about this product \n ${productModel.productName} \n ${productModel.productId}";
+
+    final url = 'https://wa.me/$number?text=${Uri.encodeComponent(message)}';
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   //checkl prooduct exist or not
@@ -232,8 +243,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       int currentQuantity = snapshot['productQuantity'];
       int updatedQuantity = currentQuantity + quantityIncrement;
       double totalPrice = double.parse(widget.productModel.isSale
-          ? widget.productModel.salePrice
-          : widget.productModel.fullPrice) *
+              ? widget.productModel.salePrice
+              : widget.productModel.fullPrice) *
           updatedQuantity;
 
       await documentReference.update({
